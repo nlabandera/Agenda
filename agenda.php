@@ -5,6 +5,13 @@ session_start();
 <html>
 <head>
 <title>agenda</title>
+<style>
+    .tarjeta{
+        border: 1px solid black;
+        width: 30%;
+        margin: 5px;
+    }
+</style>
 </head>
     
     <body> 
@@ -21,40 +28,46 @@ session_start();
 			</fieldset>
         </form>
 
-
-        <?php 
-
-            
+        <div>
+           
+             <?php 
 
             //Comprueba si se ha pulsado el boton submit
             if (isset($_GET["submit"])){
-
-               /* $datos = [
-                    'Nerea'=>'nlabandera@hotmail.com',
-                    'Koldo'=>'kintxausti@gmail.com',
-                    'Xabi'=>'xartola@gmail.com'   
-                ];*/
+                $Sintaxis = '#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#';
 
                 $nombre=$_GET['nombre'];
                 $email=$_GET['email'];
 
-                
-                $_SESSION['agenda']= [
-                    'Nerea'=>'nlabandera@hotmail.com',
-                    'Koldo'=>'kintxausti@gmail.com',
-                    'Xabi'=>'xartola@gmail.com'   
-                ];
-                $_SESSION['agenda'][$nombre]="$email";
+                if (empty($nombre)) {
+                    echo "Introduce el nombre";
+                }
 
-                //$datos[$nombre]=$email;
+                elseif (preg_match($Sintaxis,$email)) {
+                    $_SESSION['agenda'][$nombre]="$email";
+                    
+                    foreach ($_SESSION['agenda'] as $nombre => $email) {
+                        echo '<div class="tarjeta"><p>'.$nombre.'</p><p>'.$email.'</p></div>';
+                    }
+                }
+                /*else{
+                    $_SESSION['agenda'][$nombre]="$email";
+                    
+                    foreach ($_SESSION['agenda'] as $nombre => $email) {
+                        echo '<div class="tarjeta"><p>'.$nombre.'</p><p>'.$email.'</p></div>';
+                    }
 
-                foreach ($_SESSION['agenda'] as $nombre => $email) {
-                    echo $nombre.'-->'.$email.'<br>';
-            }
+                }*/
 
             }
             
             
-        ?>
+            ?>
+            
+            
+        </div>
+
+
+       
     </body>
 </html>
