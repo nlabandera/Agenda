@@ -32,32 +32,43 @@ session_start();
            
              <?php 
 
-            //Comprueba si se ha pulsado el boton submit
+            /**Comprueba si se ha pulsado el boton submit*/
             if (isset($_GET["submit"])){
                 $Sintaxis = '#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#';
-
-                $nombre=$_GET['nombre'];
+                /**Funcion strtolower para convertir la cadena a minúsculas */
+                $nombre=strtolower($_GET['nombre']);
                 $email=$_GET['email'];
-
-                if (empty($nombre)) {
-                    echo "Introduce el nombre";
+                /**Si el nombre está vacío o no lo está pero no coincide con letras: */
+                if (empty($nombre) or !preg_match("/^[a-zA-Z ]*$/",$nombre)) {
+                    echo "Introduce nombre";
                 }
 
-                elseif (preg_match($Sintaxis,$email)) {
-                    $_SESSION['agenda'][$nombre]="$email";
+                else{
+                    /**Si el nombre coincide con una clave del array agenda y el email está vacío, borra el contacto*/
+                    if (array_key_exists($nombre, $_SESSION['agenda']) and empty($email)) {
+                        unset($_SESSION['agenda'][$nombre]);
+                        foreach ($_SESSION['agenda'] as $nombre => $email) {
+                            echo '<div class="tarjeta"><p>'.$nombre.'</p><p>'.$email.'</p></div>';
+                        }
+                    }
                     
-                    foreach ($_SESSION['agenda'] as $nombre => $email) {
-                        echo '<div class="tarjeta"><p>'.$nombre.'</p><p>'.$email.'</p></div>';
+                    /**Si el correo no coincide con la sintaxis de un correo (definida en una variable más arriba),
+                     * Lanza mensaje y no imprime contactos
+                     */
+                    elseif (!preg_match($Sintaxis,$email)){
+                        echo "Email erroneo";
+                    }
+                    /**Si el correo si coincide con la sintaxis dada, inserta los datos y muestra los contactos */
+                    elseif (preg_match($Sintaxis,$email)) {
+                        $_SESSION['agenda'][$nombre]="$email";
+                        
+                        foreach ($_SESSION['agenda'] as $nombre => $email) {
+                            echo '<div class="tarjeta"><p>'.$nombre.'</p><p>'.$email.'</p></div>';
+                        }
                     }
                 }
-                /*else{
-                    $_SESSION['agenda'][$nombre]="$email";
-                    
-                    foreach ($_SESSION['agenda'] as $nombre => $email) {
-                        echo '<div class="tarjeta"><p>'.$nombre.'</p><p>'.$email.'</p></div>';
-                    }
 
-                }*/
+            
 
             }
             
