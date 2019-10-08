@@ -7,16 +7,21 @@ session_start();
 <title>agenda</title>
 <style>
     .tarjeta{
-        border: 1px solid black;
-        width: 30%;
+        width: 300px;
+        height: 100px;
+        box-shadow: 1px 1px 5px black;
         margin: 5px;
+    }
+    p{
+        text-align: center;
+        padding-top: 5px;
     }
 </style>
 </head>
     
     <body> 
     
-        <form action="" action="GET">
+        <form action="agenda.php" action="GET">
 			<fieldset>
 				<legend>Agenda</legend>
 				<label>Nombre : </label>
@@ -63,7 +68,7 @@ session_start();
                         $_SESSION['agenda'][$nombre]="$email";
                         
                         foreach ($_SESSION['agenda'] as $nombre => $email) {
-                            echo '<div class="tarjeta"><p>'.$nombre.'</p><p>'.$email.'</p></div>';
+                            echo '<div class="tarjeta"><p id="nombre">'.$nombre.'</p><p id="correo">'.$email.'</p></div>';
                         }
                     }
                 }
