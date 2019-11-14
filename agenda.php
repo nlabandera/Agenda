@@ -34,10 +34,10 @@ legend{
 
 <body>
 	<?php $propietario=$_POST['propietario'] ?> 
+    
     <h1>Hola <?php echo $propietario ?></h1>
     <form action="" action="GET">
-     <fieldset>
-        
+    <fieldset>
         <legend>Añade contactos</legend>
         <label>Nombre: </label>
         <input id="nombre" name="nombre" type="text" placeholder="Introduce tu nombre"> <br>

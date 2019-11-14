@@ -7,7 +7,7 @@
 </head>
 <body>
 	<form action="agenda.php" method="POST">
-		<label>Nombre de usuario: </label><br>
+		<label>Nombre de usuario:</label><br>
 		<input type="text" pattern="[a-zA-z]+" name="propietario" required><br><br>
 		<input type="submit">
 	</form>
